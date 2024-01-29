@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import makniker.shifttest.data.ResponseStates
+import makniker.shifttest.core.ResponseStates
 import makniker.shifttest.data.repository.UserRepository
 import javax.inject.Inject
 
@@ -26,6 +26,13 @@ class UserListViewModel @Inject constructor(private val repository: UserReposito
     }
 
     fun updateCatalog() {
-
+        viewModelScope.launch(Dispatchers.IO) {
+            _userLiveData.postValue(ResponseStates.Loading())
+            try {
+                _userLiveData.postValue(ResponseStates.Success(repository.getNewUserList()))
+            } catch(e: Exception) {
+                _userLiveData.postValue(ResponseStates.Failure(e))
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-package makniker.shifttest.data
+package makniker.shifttest.core
 
 sealed class ResponseStates<T> {
     class Loading<T> : ResponseStates<T>()

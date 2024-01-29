@@ -1,19 +1,24 @@
 package makniker.shifttest.data.datasources
 
-import makniker.shifttest.data.models.UserDataModel
+import makniker.shifttest.data.database.CacheUserModel
+import makniker.shifttest.data.database.UserDAO
+import javax.inject.Inject
 
-class CacheDataSource : DataSource {
-    override suspend fun getRandomUserList(numOfUsers: Int): List<UserDataModel> {
-        TODO("Not yet implemented")
-    }
+class CacheDataSource @Inject constructor(private val dao: UserDAO) {
+    suspend fun getRandomUserList(): List<CacheUserModel> = dao.getUserList()
 
-    fun getUserInfoById(id: String): UserDataModel {
-        TODO("Not yet implemented")
+    suspend fun getUserInfoById(id: String): CacheUserModel {
+        TODO()
     }
 
     fun isUserPresentInDatabase(id: String): Boolean {
         TODO("Not yet implemented")
     }
 
-    fun isEmptyDatabase() : Boolean = true
+    suspend fun isEmptyDatabase(): Boolean = dao.getRowCount() == 0
+
+    suspend fun saveList(list: List<CacheUserModel>) {
+        dao.deleteAll()
+        dao.insertAll(list)
+    }
 }

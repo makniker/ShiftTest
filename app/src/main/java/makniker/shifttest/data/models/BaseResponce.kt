@@ -1,31 +1,22 @@
 package makniker.shifttest.data.models
 
 import com.google.gson.annotations.SerializedName
-import makniker.shifttest.core.Mapper
-import makniker.shifttest.presentation.ui.userlist.UserUIListModel
 
 class BaseResponse(
-    @SerializedName("results") val results: List<UserDataModel>,
-    @SerializedName("info") val info: Info,
+    @SerializedName("results") val results: List<UserNetworkDataModel>
 )
 
-data class UserDataModel(
+data class UserNetworkDataModel(
     @SerializedName("gender") val gender: String,
     @SerializedName("name") val name: Name,
     @SerializedName("location") val location: Location,
+    @SerializedName("email") val email: String,
+    @SerializedName("login") val login: Login,
     @SerializedName("phone") val phone: String,
     @SerializedName("cell") val cell: String,
     @SerializedName("id") val id: Id,
     @SerializedName("picture") val picture: Picture,
-) : Mapper<UserUIListModel> {
-    override fun to(): UserUIListModel =
-        UserUIListModel(id,
-            name.title + " " + name.first + " " + name.last,
-            picture.large,
-            location.country,
-            phone
-        )
-    }
+)
 
 data class Name(
     @SerializedName("title") val title: String,
@@ -41,7 +32,12 @@ data class Location(
     @SerializedName("postcode") val postcode: String,
     @SerializedName("coordinates") val coordinates: Coordinates,
     @SerializedName("timezone") val timezone: Timezone,
-)
+) {
+    override fun toString(): String =
+        "Country: $country\n State: $state\n City: $city\n Street: $street"
+
+    fun toUIString(): String = "$country, $city"
+}
 
 data class Street(
     @SerializedName("number") val number: Long,
@@ -69,9 +65,8 @@ data class Picture(
     @SerializedName("thumbnail") val thumbnail: String,
 )
 
-data class Info(
-    @SerializedName("seed") val seed: String,
-    @SerializedName("results") val results: Long,
-    @SerializedName("page") val page: Long,
-    @SerializedName("version") val version: String,
+data class Login(
+    @SerializedName("username") val username: String,
+    @SerializedName("password") val password: String,
 )
+
