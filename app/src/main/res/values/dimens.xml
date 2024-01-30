@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="base_padding">16dp</dimen>
+    <dimen name="text_h1_size">34dp</dimen>
+    <dimen name="text_h1_line">36dp</dimen>
+    <dimen name="text_body_size">16dp</dimen>
+    <dimen name="text_body_line">24dp</dimen>
 </resources>
