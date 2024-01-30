@@ -1,7 +1,7 @@
 package makniker.shifttest.data.datasources
 
 import makniker.shifttest.data.NetworkService
-import makniker.shifttest.data.models.UserNetworkDataModel
+import makniker.shifttest.data.datamodels.UserNetworkDataModel
 import javax.inject.Inject
 
 class CloudDataSource @Inject constructor(private val service: NetworkService) {

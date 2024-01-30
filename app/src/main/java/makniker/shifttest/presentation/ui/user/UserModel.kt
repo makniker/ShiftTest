@@ -1,6 +1,6 @@
 package makniker.shifttest.presentation.ui.user
 
-import makniker.shifttest.data.models.Coordinates
+import makniker.shifttest.data.datamodels.Coordinates
 
 data class UserModel(
     val id: String,

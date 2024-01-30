@@ -9,6 +9,7 @@ import makniker.shifttest.presentation.ui.userlist.UserListFragment
 abstract class FragmentModule {
     @ContributesAndroidInjector
     abstract fun userListFragment(): UserListFragment
+
     @ContributesAndroidInjector
     abstract fun userFragment(): UserFragment
 }

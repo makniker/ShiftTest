@@ -10,7 +10,7 @@ import makniker.shifttest.core.ResponseStates
 import makniker.shifttest.data.repository.UserRepository
 import javax.inject.Inject
 
-class UserFragmentViewModel @Inject constructor(private val repository: UserRepository) : ViewModel() {
+class UserViewModel @Inject constructor(private val repository: UserRepository) : ViewModel() {
     private val _userLiveData = MutableLiveData<ResponseStates<UserModel>>()
     val userLiveData: LiveData<ResponseStates<UserModel>> = _userLiveData
 
@@ -20,7 +20,7 @@ class UserFragmentViewModel @Inject constructor(private val repository: UserRepo
             try {
                 val user = repository.getUserInfoById(id)
                 _userLiveData.postValue(ResponseStates.Success(user))
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 _userLiveData.postValue(ResponseStates.Failure(e))
             }
         }

@@ -3,7 +3,6 @@ package makniker.shifttest.data.repository
 import makniker.shifttest.core.Mapper
 import makniker.shifttest.data.datasources.CacheDataSource
 import makniker.shifttest.data.datasources.CloudDataSource
-import makniker.shifttest.data.models.UserNetworkDataModel
 import makniker.shifttest.presentation.ui.user.UserModel
 import makniker.shifttest.presentation.ui.userlist.UserUIListModel
 import javax.inject.Inject

@@ -22,9 +22,7 @@ class UserListFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by
-    createViewModelLazy(
-        UserListViewModel::class,
+    private val viewModel by createViewModelLazy(UserListViewModel::class,
         { this.viewModelStore },
         factoryProducer = { viewModelFactory })
 
@@ -38,8 +36,7 @@ class UserListFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentUserListBinding.inflate(inflater, container, false)
         return binding.root
@@ -48,8 +45,7 @@ class UserListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = binding.run {
         userList.addItemDecoration(
             DividerItemDecoration(
-                requireContext(),
-                RecyclerView.VERTICAL
+                requireContext(), RecyclerView.VERTICAL
             )
         )
         val userListAdapter = UserListAdapter {
@@ -57,17 +53,18 @@ class UserListFragment : Fragment() {
             findNavController().navigate(action)
         }
         viewModel.fetchCatalog()
-        viewModel.userListLiveData.observe(viewLifecycleOwner) {
-            result ->
-            when(result) {
+        viewModel.userListLiveData.observe(viewLifecycleOwner) { result ->
+            when (result) {
                 is ResponseStates.Success -> {
                     flipper.displayedChild = UIStates.SUCCESS_VIEW.ordinal
                     userListAdapter.submitList(result.data)
                 }
+
                 is ResponseStates.Failure -> {
                     flipper.displayedChild = UIStates.FAILURE_VIEW.ordinal
                     errorLayout.error.text = result.e.message
                 }
+
                 is ResponseStates.Loading -> {
                     flipper.displayedChild = UIStates.LOADING_VIEW.ordinal
                 }

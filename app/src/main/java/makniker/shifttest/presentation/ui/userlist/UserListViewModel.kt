@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import makniker.shifttest.core.ResponseStates
 import makniker.shifttest.data.repository.UserRepository
-import makniker.shifttest.presentation.ui.user.UserModel
 import javax.inject.Inject
 
 class UserListViewModel @Inject constructor(private val repository: UserRepository) : ViewModel() {
@@ -20,7 +19,7 @@ class UserListViewModel @Inject constructor(private val repository: UserReposito
             _userListLiveData.postValue(ResponseStates.Loading())
             try {
                 _userListLiveData.postValue(ResponseStates.Success(repository.getRandomUserList()))
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 _userListLiveData.postValue(ResponseStates.Failure(e))
             }
         }
@@ -31,7 +30,7 @@ class UserListViewModel @Inject constructor(private val repository: UserReposito
             _userListLiveData.postValue(ResponseStates.Loading())
             try {
                 _userListLiveData.postValue(ResponseStates.Success(repository.getNewUserList()))
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 _userListLiveData.postValue(ResponseStates.Failure(e))
             }
         }

@@ -1,27 +1,27 @@
 package makniker.shifttest.core
 
-import makniker.shifttest.data.database.CacheUserModel
-import makniker.shifttest.data.models.UserNetworkDataModel
+import makniker.shifttest.data.datamodels.CacheUserDataModel
+import makniker.shifttest.data.datamodels.UserNetworkDataModel
 import makniker.shifttest.presentation.ui.user.UserModel
 import makniker.shifttest.presentation.ui.userlist.UserUIListModel
 
 object Mapper {
-    fun cacheToUI(cacheUserModel: CacheUserModel): UserUIListModel = UserUIListModel(
-        cacheUserModel.id,
-        cacheUserModel.name,
-        cacheUserModel.picture.large,
-        cacheUserModel.location.country,
-        cacheUserModel.phone
+    fun cacheToUI(cacheUserDataModel: CacheUserDataModel): UserUIListModel = UserUIListModel(
+        cacheUserDataModel.id,
+        cacheUserDataModel.name,
+        cacheUserDataModel.picture.large,
+        cacheUserDataModel.location.toUIString(),
+        cacheUserDataModel.phone
     )
 
-    fun cacheToModel(cacheUserModel: CacheUserModel): UserModel = UserModel(
-        cacheUserModel.id,
-        cacheUserModel.name,
-        cacheUserModel.picture.large,
-        cacheUserModel.location.coordinates,
-        cacheUserModel.email,
-        cacheUserModel.location.toString(),
-        cacheUserModel.phone
+    fun cacheToModel(cacheUserDataModel: CacheUserDataModel): UserModel = UserModel(
+        cacheUserDataModel.id,
+        cacheUserDataModel.name,
+        cacheUserDataModel.picture.large,
+        cacheUserDataModel.location.coordinates,
+        cacheUserDataModel.email,
+        cacheUserDataModel.location.toString(),
+        cacheUserDataModel.phone
     )
 
     fun networkToUI(networkDataModel: UserNetworkDataModel): UserUIListModel = UserUIListModel(
@@ -32,15 +32,13 @@ object Mapper {
         networkDataModel.phone
     )
 
-    fun networkToCache(networkDataModel: UserNetworkDataModel): CacheUserModel = CacheUserModel(
-        "${networkDataModel.id.name} ${networkDataModel.id.value}",
-        "${networkDataModel.name.title} ${networkDataModel.name.first} ${networkDataModel.name.last}",
-        networkDataModel.gender,
-        networkDataModel.location,
-        networkDataModel.email,
-        networkDataModel.login,
-        networkDataModel.phone,
-        networkDataModel.cell,
-        networkDataModel.picture
-    )
+    fun networkToCache(networkDataModel: UserNetworkDataModel): CacheUserDataModel =
+        CacheUserDataModel(
+            "${networkDataModel.id.name} ${networkDataModel.id.value}",
+            "${networkDataModel.name.title} ${networkDataModel.name.first} ${networkDataModel.name.last}",
+            networkDataModel.location,
+            networkDataModel.email,
+            networkDataModel.phone,
+            networkDataModel.picture
+        )
 }

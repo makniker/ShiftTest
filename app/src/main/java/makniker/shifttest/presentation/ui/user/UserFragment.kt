@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.createViewModelLazy
@@ -28,7 +29,7 @@ class UserFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by createViewModelLazy(UserFragmentViewModel::class,
+    private val viewModel by createViewModelLazy(UserViewModel::class,
         { this.viewModelStore },
         factoryProducer = { viewModelFactory })
     private var _binding: FragmentUserBinding? = null
@@ -84,21 +85,25 @@ class UserFragment : Fragment() {
         email.text = result.email
 
         phone.setOnClickListener {
-            val intent = Intent(Intent.ACTION_DIAL)
-            intent.data = Uri.parse("tel:${result.phone}")
-            startActivity(intent)
+            startOutsourceActivity(Intent.ACTION_DIAL, "tel:${result.phone}")
         }
         map.setOnClickListener {
-            val location =
-                Uri.parse("geo:${result.coordinates.latitude},${result.coordinates.longitude}")
-            val mapIntent = Intent(Intent.ACTION_VIEW, location)
-            startActivity(mapIntent)
+            startOutsourceActivity(
+                Intent.ACTION_VIEW,
+                "geo:${result.coordinates.latitude},${result.coordinates.longitude}"
+            )
         }
         email.setOnClickListener {
-            val emailText =
-                Uri.parse("mailto:" + result.email)
-            val emailIntent = Intent(Intent.ACTION_VIEW, emailText)
-            startActivity(emailIntent)
+            startOutsourceActivity(Intent.ACTION_VIEW, "mailto:${result.email}")
+        }
+    }
+
+    private fun startOutsourceActivity(intentType: String, uriString: String) {
+        try {
+            val intent = Intent(intentType, Uri.parse(uriString))
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(context, "No app for this action: $intentType", Toast.LENGTH_LONG).show()
         }
     }
 
