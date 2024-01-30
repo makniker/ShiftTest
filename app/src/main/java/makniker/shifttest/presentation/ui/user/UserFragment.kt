@@ -1,6 +1,8 @@
 package makniker.shifttest.presentation.ui.user
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,14 +11,15 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.createViewModelLazy
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import dagger.android.support.AndroidSupportInjection
+import makniker.shifttest.R
 import makniker.shifttest.core.ResponseStates
 import makniker.shifttest.databinding.FragmentUserBinding
 import makniker.shifttest.presentation.ui.UIStates
 import javax.inject.Inject
+
 
 class UserFragment : Fragment() {
 
@@ -25,9 +28,7 @@ class UserFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by
-    createViewModelLazy(
-        UserFragmentViewModel::class,
+    private val viewModel by createViewModelLazy(UserFragmentViewModel::class,
         { this.viewModelStore },
         factoryProducer = { viewModelFactory })
     private var _binding: FragmentUserBinding? = null
@@ -39,8 +40,7 @@ class UserFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentUserBinding.inflate(inflater, container, false)
         return binding.root
@@ -67,14 +67,39 @@ class UserFragment : Fragment() {
         }
 
         val callback = requireActivity().onBackPressedDispatcher.addCallback {
-            findNavController().navigate(UserFragmentDirections.actionUserFragmentToUserListFragment())
+            parentFragmentManager.popBackStack()
         }
-        callback.isEnabled=true
+        callback.isEnabled = true
 
     }
 
     private fun bindData(result: UserModel) = binding.userLayout.run {
         Glide.with(preview).load(result.picture).into(preview)
+        name.text = result.name
+        location.text = result.location
+        phone.text = result.phone
+        map.text = context?.getString(
+            R.string.coordinates, result.coordinates.latitude, result.coordinates.longitude
+        ) ?: ""
+        email.text = result.email
+
+        phone.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:${result.phone}")
+            startActivity(intent)
+        }
+        map.setOnClickListener {
+            val location =
+                Uri.parse("geo:${result.coordinates.latitude},${result.coordinates.longitude}")
+            val mapIntent = Intent(Intent.ACTION_VIEW, location)
+            startActivity(mapIntent)
+        }
+        email.setOnClickListener {
+            val emailText =
+                Uri.parse("mailto:" + result.email)
+            val emailIntent = Intent(Intent.ACTION_VIEW, emailText)
+            startActivity(emailIntent)
+        }
     }
 
     override fun onDestroyView() {

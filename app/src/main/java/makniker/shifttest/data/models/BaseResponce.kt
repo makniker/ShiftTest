@@ -34,7 +34,7 @@ data class Location(
     @SerializedName("timezone") val timezone: Timezone,
 ) {
     override fun toString(): String =
-        "Country: $country\n State: $state\n City: $city\n Street: $street"
+        "Country: $country\n State: $state\n City: $city\n Street: ${street.name + ", " + street.number}"
 
     fun toUIString(): String = "$country, $city"
 }

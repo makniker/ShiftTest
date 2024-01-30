@@ -1,3 +1,13 @@
 package makniker.shifttest.presentation.ui.user
 
-data class UserModel(val id: String, val name: String, val picture: String, val location: String, val phone: String)
+import makniker.shifttest.data.models.Coordinates
+
+data class UserModel(
+    val id: String,
+    val name: String,
+    val picture: String,
+    val coordinates: Coordinates,
+    val email: String,
+    val location: String,
+    val phone: String,
+)

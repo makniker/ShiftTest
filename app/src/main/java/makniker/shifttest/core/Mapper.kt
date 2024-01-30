@@ -18,7 +18,9 @@ object Mapper {
         cacheUserModel.id,
         cacheUserModel.name,
         cacheUserModel.picture.large,
-        cacheUserModel.location.country,
+        cacheUserModel.location.coordinates,
+        cacheUserModel.email,
+        cacheUserModel.location.toString(),
         cacheUserModel.phone
     )
 
@@ -26,7 +28,7 @@ object Mapper {
         "${networkDataModel.id.name} ${networkDataModel.id.value}",
         "${networkDataModel.name.title} ${networkDataModel.name.first} ${networkDataModel.name.last}",
         networkDataModel.picture.large,
-        networkDataModel.location.country,
+        networkDataModel.location.toUIString(),
         networkDataModel.phone
     )
 
