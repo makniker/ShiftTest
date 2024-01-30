@@ -2,10 +2,19 @@ package makniker.shifttest.core
 
 import makniker.shifttest.data.database.CacheUserModel
 import makniker.shifttest.data.models.UserNetworkDataModel
+import makniker.shifttest.presentation.ui.user.UserModel
 import makniker.shifttest.presentation.ui.userlist.UserUIListModel
 
 object Mapper {
     fun cacheToUI(cacheUserModel: CacheUserModel): UserUIListModel = UserUIListModel(
+        cacheUserModel.id,
+        cacheUserModel.name,
+        cacheUserModel.picture.large,
+        cacheUserModel.location.country,
+        cacheUserModel.phone
+    )
+
+    fun cacheToModel(cacheUserModel: CacheUserModel): UserModel = UserModel(
         cacheUserModel.id,
         cacheUserModel.name,
         cacheUserModel.picture.large,

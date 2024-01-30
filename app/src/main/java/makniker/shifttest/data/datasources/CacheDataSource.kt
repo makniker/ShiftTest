@@ -5,19 +5,12 @@ import makniker.shifttest.data.database.UserDAO
 import javax.inject.Inject
 
 class CacheDataSource @Inject constructor(private val dao: UserDAO) {
-    suspend fun getRandomUserList(): List<CacheUserModel> = dao.getUserList()
+    fun getRandomUserList(): List<CacheUserModel> = dao.getUserList()
 
-    suspend fun getUserInfoById(id: String): CacheUserModel {
-        TODO()
-    }
+    fun getUserInfoById(id: String): CacheUserModel? = dao.getByID(id)
+    fun isEmptyDatabase(): Boolean = dao.getRowCount() == 0
 
-    fun isUserPresentInDatabase(id: String): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    suspend fun isEmptyDatabase(): Boolean = dao.getRowCount() == 0
-
-    suspend fun saveList(list: List<CacheUserModel>) {
+    fun saveList(list: List<CacheUserModel>) {
         dao.deleteAll()
         dao.insertAll(list)
     }

@@ -22,12 +22,11 @@ class UserListFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by createViewModelLazy(
+    private val viewModel by
+    createViewModelLazy(
         UserListViewModel::class,
         { this.viewModelStore },
         factoryProducer = { viewModelFactory })
-
-    lateinit var userListAdapter: UserListAdapter
 
     private var _binding: FragmentUserListBinding? = null
     private val binding get() = _binding!!
@@ -53,13 +52,12 @@ class UserListFragment : Fragment() {
                 RecyclerView.VERTICAL
             )
         )
-        userListAdapter = UserListAdapter {
+        val userListAdapter = UserListAdapter {
             val action = UserListFragmentDirections.actionUserListFragmentToUserFragment2(it.id)
             findNavController().navigate(action)
         }
-        userList.adapter = userListAdapter
         viewModel.fetchCatalog()
-        viewModel.userLiveData.observe(viewLifecycleOwner) {
+        viewModel.userListLiveData.observe(viewLifecycleOwner) {
             result ->
             when(result) {
                 is ResponseStates.Success -> {
@@ -75,6 +73,7 @@ class UserListFragment : Fragment() {
                 }
             }
         }
+        userList.adapter = userListAdapter
         fab.setOnClickListener {
             viewModel.updateCatalog()
         }

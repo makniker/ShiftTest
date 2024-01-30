@@ -20,12 +20,12 @@ class UserListAdapter(
 
             override fun areItemsTheSame(
                 oldItem: UserUIListModel, newItem: UserUIListModel
-            ): Boolean = oldItem.name == newItem.name
+            ): Boolean = oldItem == newItem
 
             override fun areContentsTheSame(
                 oldItem: UserUIListModel, newItem: UserUIListModel
             ): Boolean {
-                return oldItem == newItem
+                return oldItem.id == newItem.id
             }
         }
     }
